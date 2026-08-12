@@ -3,7 +3,7 @@ from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from flask import Flask, request, jsonify
 import os
 
-TOKEN = "bot token"
+TOKEN = "7767860852:AAFdsGfjaKv_UhaT4t3fl2J742WDxYWh804"
 ADMIN_ID = 218104646
 
 # برای ذخیره وضعیت موقت (بعداً باید به دیتابیس تغییر کنه)
