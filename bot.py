@@ -1,21 +1,17 @@
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
-from flask import Flask, request, jsonify
-import os
 
-TOKEN = "7767860852:AAFdsGfjaKv_UhaT4t3fl2J742WDxYWh804"
+# ⚠️ حتماً توکن جدید را از BotFather بگیرید و اینجا جایگزین کنید
+TOKEN = "7767860852:AAGOZ5mlJ-jc2BgNp2Ln7agkf7YTI7jJPboا"
 ADMIN_ID = 218104646
 
-# برای ذخیره وضعیت موقت (بعداً باید به دیتابیس تغییر کنه)
+# برای ذخیره وضعیت موقت
 waiting_users = {}
-
-# ساخت اپلیکیشن Flask
-app = Flask(__name__)
 
 # ساخت ربات
 bot = telebot.TeleBot(TOKEN)
 
-# ----------------- هندلرهای ربات (بدون تغییر) -----------------
+# ----------------- هندلرهای ربات -----------------
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
@@ -51,30 +47,9 @@ def receive_question(message):
     bot.send_message(message.chat.id, "✅ سوال شما با موفقیت ارسال شد.")
     del waiting_users[user.id]
 
-# ----------------- بخش سرورلس (Flask) -----------------
+# ----------------- اجرای بات روی VPS -----------------
 
-@app.route('/webhook', methods=['POST'])
-def webhook():
-    """
-    این تابع هر بار که تلگرام پیام جدید می‌فرسته، صدا زده میشه.
-    """
-    if request.headers.get('content-type') == 'application/json':
-        json_string = request.get_data().decode('utf-8')
-        update = telebot.types.Update.de_json(json_string)
-        bot.process_new_updates([update])
-        return jsonify({'status': 'ok'})
-    else:
-        return jsonify({'status': 'error'}), 403
-
-# این تابع مخصوص پلتفرم‌هایی مثل Vercel یا AWS Lambda هست
-def main(event, context):
-    # وقتی پلتفرم سرورلس درخواست رو میاره، میندازه توی Flask
-    with app.test_client() as client:
-        response = client.post(
-            '/webhook',
-            data=event.get('body', ''),
-            headers={
-                'Content-Type': event.get('headers', {}).get('Content-Type', 'application/json')
-            }
-        )
-        return {'statusCode': response.status_code, 'body': response.get_data(as_text=True)}
+if __name__ == '__main__':
+    print("Bot is running...")
+    # این دستور باعث میشه بات 24 ساعته به تلگرام وصل بمونه و پیام‌ها رو بگیره
+    bot.infinity_polling()
