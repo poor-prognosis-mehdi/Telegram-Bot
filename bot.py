@@ -2,7 +2,7 @@ import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 # ⚠️ حتماً توکن جدید را از BotFather بگیرید و اینجا جایگزین کنید
-TOKEN ="7767860852:AAFoFL1jNhIJmkrHU6FP85CLchU2ar5AWtc".strip()
+TOKEN ="7767860852:AAFoFL1jNhIJmkrHU6FP85CLchU2ar5AWtc"
 ADMIN_ID = 218104646
 
 # برای ذخیره وضعیت موقت
