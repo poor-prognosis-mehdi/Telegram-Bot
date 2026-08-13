@@ -48,9 +48,7 @@ def receive_question(message):
     username = user.username if user.username else "ندارد"
     text = f"""
 📩 سوال جدید دریافت شد
-👤 نام: {user.first_name}
 🆔 آیدی عددی: {user.id}
-🔹 یوزرنیم: @{username}
 💬 متن سوال:
 {message.text}
 """
