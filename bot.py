@@ -1,74 +1,69 @@
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-# توکن خود را اینجا قرار دهید
-TOKEN = "7767860852:AAFTlW9PtNp22LA0HLK4Eksw2N1t_8vL2-c"
+TOKEN ="7767860852:AAEwiTHdidSyEgSC9doSGKtSCOKvG3PPYSA"
 ADMIN_ID = 218104646
 
-# برای ذخیره وضعیت موقت
+ABOUT_ME_TEXT = """سلام دوست عزیز 👋
+
+من محمد مهدی دقیقیان هستم؛ دانش‌آموخته کارشناسی علوم آزمایشگاهی از دانشگاه علوم پزشکی جندی‌شاپور اهواز و هم‌اکنون دانشجوی کارشناسی ارشد ویروس‌شناسی پزشکی دانشگاه علوم پزشکی جندی‌شاپور اهواز هستم.
+
+خیلی خوشحال می‌شم که در قسمت «پیام شخصی» هر سوالی درباره بیماری‌های ویروسی که نیاز داری راجع‌بهشون اطلاعات داشته باشی، ازم بپرسی. من هم خوشحال می‌شم که به اندازه سوادی که دارم، سوالاتت رو اگه بلد باشم بهت جواب بدم.
+
+یه سری بیماری‌های ویروسی خیلی شایع در جهان (STD) وجود دارن که خیلی خوبه درمورد راه‌های انتقال، بیماری‌زایی و شیوع‌شون اطلاع داشته باشی، و این بهت کمک می‌کنه تا سلامت بدنت رو تضمین کنی.
+
+پس هر سوالی داشتی که خجالت می‌کشی بگی، می‌تونی به‌صورت پنهانی در قسمت «پیام شخصی» ازم بپرسی."""
+
 waiting_users = {}
-
-# ساخت ربات
 bot = telebot.TeleBot(TOKEN)
-
-# ----------------- هندلرهای ربات -----------------
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     markup = InlineKeyboardMarkup()
+
+    btn_about = InlineKeyboardButton("👤 درباره من", callback_data="about_me")
     btn_telegram = InlineKeyboardButton("📱 ارتباط با من", url="https://t.me/poor_prognosis_mehdi")
     btn_card = InlineKeyboardButton("🪪 مشاهده کارت", url="https://linktr.ee/mohammadmehdidaghighian")
-    btn_about = InlineKeyboardButton("👤 درباره من", callback_data="about_me")
     btn_question = InlineKeyboardButton("✉️ پیام شخصی", callback_data="ask_question")
-    
-    markup.add(btn_telegram)
-    markup.add(btn_card)
-    markup.add(btn_about)
-    markup.add(btn_question)
-    
+
+    btn_hpv = InlineKeyboardButton("HPV", url="https://youtu.be/pyihsgc209Q?si=LndSEasvzrDPtw33")
+    btn_hiv = InlineKeyboardButton("HIV", url="https://youtu.be/OQnX8u9Y6e0?si=VxWfXW1Yy58pBXa-")
+    btn_hbv = InlineKeyboardButton("HBV", url="https://youtu.be/0jrHRv2pJXQ?si=O9cSCQfYP6szW3qT")
+    btn_hsv = InlineKeyboardButton("HSV", url="https://youtu.be/PaLu2K18jpk?si=oKhJjetv6jhKupoh")
+
+    # ترتیب ردیف‌ها دقیقاً همین‌طور که چیده شده رندر می‌شود
+    markup.row(btn_about)
+    markup.row(btn_telegram)
+    markup.row(btn_card)
+    markup.row(btn_question)
+    markup.row(btn_hpv, btn_hiv)
+    markup.row(btn_hbv, btn_hsv)
+
     bot.send_message(message.chat.id, "یکی از گزینه‌های زیر را انتخاب کنید:", reply_markup=markup)
 
-# تابع مدیریت دکمه "درباره من"
 @bot.callback_query_handler(func=lambda call: call.data == "about_me")
 def about_me(call):
-    # متن معرفی شما
-    about_text = """
-سلام دوست عزیز ،
-
-من محمد مهدی دقیقیان هستم ؛ 
-دانش آموخته کارشناسی علوم آزمایشگاهی از دانشگاه علوم پزشکی جندی شاپور اهواز و هم اکنون دانشجوی کارشناسی ارشد ویروس شناسی پزشکی دانشگاه علوم پزشکی جندی شاپور اهواز هستم ؛ 
-
-خیلی خوشحال میشم که در قسمت پیام شخصی هر سوالی درباره بیماری های ویروسی که نیاز داری راجب شون اطلاعات داشته باشی ازم بپرسی من هم خوشحال میشم که به اندازه سوادی که دارم سوالات ات رو اگه بلد باشم بهت جواب بدم ؛ 
-
-یه سری بیماری های ویروسی خیلی شایع در جهان(STD) وجود دارن که خیلی خوبه که درمورد راه های انتقال و بیماری زایی و شیوع شون اطلاع داشته باشی و این بهت کمک میکنه تا سلامت بدن ات رو تضمین کنی. 
-
-پس هر سوالی داشتی که خجالت میکشی بگی میتونی به صورت پنهانی در قسمت پیام شخصی ازم بپرس.
-"""
-    # ارسال متن به کاربر
-    bot.send_message(call.message.chat.id, about_text)
-    # نمایش تیک تایید روی دکمه
-    bot.answer_callback_query(call.id, text="در حال نمایش اطلاعات...")
+    bot.answer_callback_query(call.id)
+    bot.send_message(call.message.chat.id, ABOUT_ME_TEXT)
 
 @bot.callback_query_handler(func=lambda call: call.data == "ask_question")
 def ask_question(call):
+    bot.answer_callback_query(call.id)
     user_id = call.from_user.id
     waiting_users[user_id] = True
     bot.send_message(user_id, "سوال خود را بنویس و ارسال کن:")
 
 @bot.message_handler(func=lambda message: message.from_user.id in waiting_users)
 def receive_question(message):
-    # فقط متن پیام دریافت و برای ادمین ارسال می‌شود، بدون هیچ مشخصاتی از فرستنده
+    user = message.from_user
     text = f"""
-📩 یک پیام شخصی جدید دریافت شد:
-
-💬 متن پیام:
+📩 سوال جدید دریافت شد (ناشناس)
+💬 متن سوال:
 {message.text}
 """
     bot.send_message(ADMIN_ID, text)
     bot.send_message(message.chat.id, "✅ سوال شما با موفقیت ارسال شد.")
-    del waiting_users[message.from_user.id]
-
-# ----------------- اجرای بات روی VPS -----------------
+    del waiting_users[user.id]
 
 if __name__ == '__main__':
     print("Bot is running...")
