@@ -1,7 +1,7 @@
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-TOKEN ="7767860852:AAEwiTHdidSyEgSC9doSGKtSCOKvG3PPYSA"
+TOKEN ="7767860852:AAHyyUgAcJSe4sXjvf7SVpWXkpqXiJrLnI8"
 ADMIN_ID = 218104646
 
 ABOUT_ME_TEXT = """سلام دوست عزیز 👋
@@ -13,6 +13,17 @@ ABOUT_ME_TEXT = """سلام دوست عزیز 👋
 یه سری بیماری‌های ویروسی خیلی شایع در جهان (STD) وجود دارن که خیلی خوبه درمورد راه‌های انتقال، بیماری‌زایی و شیوع‌شون اطلاع داشته باشی، و این بهت کمک می‌کنه تا سلامت بدنت رو تضمین کنی.
 
 پس هر سوالی داشتی که خجالت می‌کشی بگی، می‌تونی به‌صورت پنهانی در قسمت «پیام شخصی» ازم بپرسی."""
+
+STD_TESTS_TEXT = """🧪 تست‌های مربوط به بیماری‌های مقاربتی (جنسی)
+
+🔹 تست‌های HPV:
+HPV DNA / PAP Smear
+
+🔹 تست‌های HIV:
+HIV Ag/Ab, P24 / HIV PCR / Western Blot
+
+🔹 تست‌های HBV:
+HBsAg / HBV DNA Test"""
 
 waiting_users = {}
 bot = telebot.TeleBot(TOKEN)
@@ -30,6 +41,7 @@ def send_welcome(message):
     btn_hiv = InlineKeyboardButton("HIV", url="https://youtu.be/OQnX8u9Y6e0?si=VxWfXW1Yy58pBXa-")
     btn_hbv = InlineKeyboardButton("HBV", url="https://youtu.be/0jrHRv2pJXQ?si=O9cSCQfYP6szW3qT")
     btn_hsv = InlineKeyboardButton("HSV", url="https://youtu.be/PaLu2K18jpk?si=oKhJjetv6jhKupoh")
+    btn_tests = InlineKeyboardButton("🧪 تست‌های مربوط به بیماری‌های مقاربتی(جنسی)", callback_data="std_tests")
 
     # ترتیب ردیف‌ها دقیقاً همین‌طور که چیده شده رندر می‌شود
     markup.row(btn_about)
@@ -38,6 +50,7 @@ def send_welcome(message):
     markup.row(btn_question)
     markup.row(btn_hpv, btn_hiv)
     markup.row(btn_hbv, btn_hsv)
+    markup.row(btn_tests)
 
     bot.send_message(message.chat.id, "یکی از گزینه‌های زیر را انتخاب کنید:", reply_markup=markup)
 
@@ -45,6 +58,11 @@ def send_welcome(message):
 def about_me(call):
     bot.answer_callback_query(call.id)
     bot.send_message(call.message.chat.id, ABOUT_ME_TEXT)
+
+@bot.callback_query_handler(func=lambda call: call.data == "std_tests")
+def std_tests(call):
+    bot.answer_callback_query(call.id)
+    bot.send_message(call.message.chat.id, STD_TESTS_TEXT)
 
 @bot.callback_query_handler(func=lambda call: call.data == "ask_question")
 def ask_question(call):
