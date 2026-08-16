@@ -1,7 +1,7 @@
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-TOKEN ="7767860852:AAHyyUgAcJSe4sXjvf7SVpWXkpqXiJrLnI8"
+TOKEN ="7767860852:AAF0Q69fF6ub80ww8hSEPeRoeWAy9J4coBI"
 ADMIN_ID = 218104646
 
 ABOUT_ME_TEXT = """سلام دوست عزیز 👋
@@ -26,6 +26,8 @@ HIV Ag/Ab, P24 / HIV PCR / Western Blot
 HBsAg / HBV DNA Test"""
 
 waiting_users = {}
+question_map = {}  # کد سوال -> آیدی عددی کاربر
+next_question_id = 1
 bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start'])
@@ -73,15 +75,50 @@ def ask_question(call):
 
 @bot.message_handler(func=lambda message: message.from_user.id in waiting_users)
 def receive_question(message):
+    global next_question_id
     user = message.from_user
+
+    qid = next_question_id
+    next_question_id += 1
+    question_map[qid] = user.id
+
     text = f"""
 📩 سوال جدید دریافت شد (ناشناس)
+🔑 کد سوال: {qid}
 💬 متن سوال:
 {message.text}
+
+↩️ برای پاسخ، این دستور را بفرست:
+/reply {qid} متن پاسخ شما
 """
     bot.send_message(ADMIN_ID, text)
     bot.send_message(message.chat.id, "✅ سوال شما با موفقیت ارسال شد.")
     del waiting_users[user.id]
+
+@bot.message_handler(commands=['reply'])
+def reply_to_user(message):
+    if message.from_user.id != ADMIN_ID:
+        return  # فقط ادمین اجازه پاسخ دادن دارد
+
+    try:
+        parts = message.text.split(maxsplit=2)
+        qid = int(parts[1])
+        answer_text = parts[2]
+    except (IndexError, ValueError):
+        bot.send_message(ADMIN_ID, "❌ فرمت درست: /reply کد متن‌پاسخ")
+        return
+
+    target_user_id = question_map.get(qid)
+    if not target_user_id:
+        bot.send_message(ADMIN_ID, "❌ کد سوال معتبر نیست یا قبلاً پاسخ داده شده.")
+        return
+
+    try:
+        bot.send_message(target_user_id, f"📬 پاسخ به سوال شما:\n\n{answer_text}")
+        bot.send_message(ADMIN_ID, "✅ پاسخ ارسال شد.")
+        del question_map[qid]
+    except Exception as e:
+        bot.send_message(ADMIN_ID, f"❌ ارسال پاسخ ناموفق بود: {e}")
 
 if __name__ == '__main__':
     print("Bot is running...")
