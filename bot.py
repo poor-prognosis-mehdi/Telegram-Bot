@@ -1,7 +1,7 @@
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-TOKEN ="7767860852:AAF0Q69fF6ub80ww8hSEPeRoeWAy9J4coBI"
+TOKEN ="7767860852:AAF9tzjnV3_JeRYKWVaN8o9QZRlhVzw0mu8"
 ADMIN_ID = 218104646
 
 ABOUT_ME_TEXT = """سلام دوست عزیز 👋
@@ -44,6 +44,7 @@ def send_welcome(message):
     btn_hbv = InlineKeyboardButton("HBV", url="https://youtu.be/0jrHRv2pJXQ?si=O9cSCQfYP6szW3qT")
     btn_hsv = InlineKeyboardButton("HSV", url="https://youtu.be/PaLu2K18jpk?si=oKhJjetv6jhKupoh")
     btn_tests = InlineKeyboardButton("🧪 تست‌های مربوط به بیماری‌های مقاربتی(جنسی)", callback_data="std_tests")
+    btn_sites = InlineKeyboardButton("🌐 سایت‌های معتبر علمی/پزشکی", callback_data="trusted_sites")
 
     # ترتیب ردیف‌ها دقیقاً همین‌طور که چیده شده رندر می‌شود
     markup.row(btn_about)
@@ -53,6 +54,7 @@ def send_welcome(message):
     markup.row(btn_hpv, btn_hiv)
     markup.row(btn_hbv, btn_hsv)
     markup.row(btn_tests)
+    markup.row(btn_sites)
 
     bot.send_message(message.chat.id, "یکی از گزینه‌های زیر را انتخاب کنید:", reply_markup=markup)
 
@@ -60,6 +62,19 @@ def send_welcome(message):
 def about_me(call):
     bot.answer_callback_query(call.id)
     bot.send_message(call.message.chat.id, ABOUT_ME_TEXT)
+
+@bot.callback_query_handler(func=lambda call: call.data == "trusted_sites")
+def trusted_sites(call):
+    bot.answer_callback_query(call.id)
+    markup = InlineKeyboardMarkup()
+    markup.row(InlineKeyboardButton("🇺🇸 CDC", url="https://www.cdc.gov/std/"))
+    markup.row(InlineKeyboardButton("🌍 WHO", url="https://www.who.int/health-topics/sexually-transmitted-infections"))
+    markup.row(InlineKeyboardButton("🏥 Mayo Clinic", url="https://www.mayoclinic.org/diseases-conditions/sexually-transmitted-diseases-stds/symptoms-causes/syc-20351240"))
+    bot.send_message(
+        call.message.chat.id,
+        "🌐 برای اطلاعات علمی و معتبر می‌تونی به این سایت‌ها مراجعه کنی:",
+        reply_markup=markup
+    )
 
 @bot.callback_query_handler(func=lambda call: call.data == "std_tests")
 def std_tests(call):
