@@ -16,7 +16,7 @@ A Telegram bot for personal introduction and educational content about viral sex
 
 - Python 3.9 or higher
 - A bot token from [@BotFather](https://t.me/BotFather)
-- VPS server(Ipv4) for launch Telegram Bot 24/7
+- VPS server (Ipv4) for launch Telegram Bot 24/7
 
 ## Installation
 
