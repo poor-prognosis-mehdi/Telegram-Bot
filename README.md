@@ -1,6 +1,6 @@
 # Personal Telegram Bot
 
-A Telegram bot for personal introduction and educational content about viral sexually transmitted infections (HPV, HIV, HBV, HSV), with an anonymous messaging feature for users.
+A Telegram bot for personal introduction and educational content about viral sexually transmitted infections (HPV, HIV, HBV, HSV), with an anonymous messaging feature for users. This bot operates by connecting to a virtual private server (VPS); you can use server marketplaces to purchase a dedicated server for this purpose. To obtain a Telegram bot token, use BotFather within Telegram itself.
 
 ## Features
 
