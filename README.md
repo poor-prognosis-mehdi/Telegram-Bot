@@ -16,7 +16,6 @@ A Telegram bot for personal introduction and educational content about viral sex
 
 - Python 3.9 or higher
 - A bot token from [@BotFather](https://t.me/BotFather)
-- VPS server (Ipv4) for launch Telegram Bot 24/7
 
 ## Installation
 
@@ -64,6 +63,87 @@ When a user sends a question via the "Personal Message" button:
 ├── bot.py          # Main bot code
 └── README.md       # This file
 ```
+
+## First-Time Setup: Running the Bot with Screen
+
+To run the bot persistently on a server for the first time, follow these steps:
+
+1. Create a new virtual screen session:
+   ```bash
+   screen -S telegram_bot
+   ```
+
+2. Activate your Python virtual environment:
+   ```bash
+   source venv/bin/activate
+   ```
+
+3. Run the bot:
+   ```bash
+   python3 bot.py
+   ```
+
+4. If everything is set up correctly, you should see the following output:
+   ```
+   Bot is running...
+   ```
+
+5. Detach from the screen session (leaving the bot running in the background) by pressing:
+   ```
+   Ctrl + A, then D
+   ```
+
+## Stopping the Bot to Apply Code Changes
+
+If the bot is running inside a `screen` session (e.g. named `telegram_bot`) on your server, follow these steps before pulling and applying new code:
+
+1. Reattach to the running screen session:
+   ```bash
+   screen -r telegram_bot
+   ```
+
+2. Stop the bot by pressing:
+   ```
+   Ctrl + C
+   ```
+
+3. Now pull the latest changes (see the section above) and run the bot again:
+   ```bash
+   python bot.py
+   ```
+
+4. To detach from the screen session and leave the bot running in the background, press:
+   ```
+   Ctrl + A, then D
+   ```
+
+> ℹ️ If you don't have a screen session named `telegram_bot` yet, create one with `screen -S telegram_bot` before starting the bot for the first time.
+
+## Updating the Bot After Code Changes
+
+If you make changes to `bot.py` (locally or via GitHub) and want to pull the latest version to your machine or server:
+
+1. Open **PowerShell** in your project folder (where the repository was cloned).
+
+2. Pull the latest changes from GitHub:
+   ```powershell
+   git pull
+   ```
+
+3. If you edited the code on the server itself and pushed it to GitHub from there, make sure to commit and push first, **before** pulling elsewhere:
+   ```powershell
+   git add .
+   git commit -m "Describe your change here"
+   git push
+   ```
+
+4. After pulling, restart the bot so the new code takes effect:
+   ```powershell
+   # Stop the currently running bot (Ctrl+C if running in the terminal)
+   python bot.py
+   ```
+
+> ℹ️ If the bot is running as a background service (e.g. via `systemd`, `pm2`, or `screen`), remember to restart that service after `git pull`, otherwise it will keep running the old code.
 
 ## Running Continuously on a Server (VPS)
 
