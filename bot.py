@@ -1,7 +1,7 @@
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-TOKEN ="7767860852:AAG19eWI27LLYDcWcAhS9JGusom2IQMjZ1w"
+TOKEN ="7767860852:AAHq5WqZ5ETffXQY671t9Adxkf_-33qu_6o"
 ADMIN_ID = 218104646
 
 ABOUT_ME_TEXT = """سلام دوست عزیز 👋
