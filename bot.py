@@ -1,8 +1,8 @@
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-TOKEN ="your bot father token"
-ADMIN_ID = your ID
+TOKEN ="7767860852:AAHWBlsF7vECqsRCoDrbb6iCJoVw9Lu0BFM"
+ADMIN_ID = 218104646
 
 ABOUT_ME_TEXT = """سلام دوست عزیز 👋
 
@@ -45,6 +45,7 @@ def send_welcome(message):
     btn_hsv = InlineKeyboardButton("HSV", url="https://youtu.be/PaLu2K18jpk?si=oKhJjetv6jhKupoh")
     btn_tests = InlineKeyboardButton("🧪 تست‌های مربوط به بیماری‌های مقاربتی(جنسی)", callback_data="std_tests")
     btn_sites = InlineKeyboardButton("🌐 سایت‌های معتبر علمی/پزشکی", callback_data="trusted_sites")
+    btn_quiz = InlineKeyboardButton("📝 کوئیز اطلاعات ویروس‌شناسی", url="https://forms.gle/cdAshXEqVowaPzv3A")
 
     # ترتیب ردیف‌ها دقیقاً همین‌طور که چیده شده رندر می‌شود
     markup.row(btn_about)
@@ -55,6 +56,7 @@ def send_welcome(message):
     markup.row(btn_hbv, btn_hsv)
     markup.row(btn_tests)
     markup.row(btn_sites)
+    markup.row(btn_quiz)
 
     bot.send_message(message.chat.id, "یکی از گزینه‌های زیر را انتخاب کنید:", reply_markup=markup)
 
