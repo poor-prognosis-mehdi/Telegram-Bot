@@ -1,8 +1,8 @@
-import telebot
+8import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-TOKEN ="7767860852:AAHWBlsF7vECqsRCoDrbb6iCJoVw9Lu0BFM"
-ADMIN_ID = 218104646
+TOKEN ="your botfather token"
+ADMIN_ID = your telegram ID
 
 ABOUT_ME_TEXT = """سلام دوست عزیز 👋
 
