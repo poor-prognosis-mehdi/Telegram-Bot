@@ -1,8 +1,8 @@
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-TOKEN ="7767860852:AAHjHkWxNH3Q3yuLE4GZv56w29uDfojV3JM"
-ADMIN_ID =218104646
+TOKEN ="your botfather token"
+ADMIN_ID = your Telegram ID number
 
 ABOUT_ME_TEXT = """سلام دوست عزیز 👋
 
