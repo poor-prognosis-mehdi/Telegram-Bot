@@ -1,4 +1,4 @@
-8import telebot
+import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 TOKEN ="7767860852:AAHjHkWxNH3Q3yuLE4GZv56w29uDfojV3JM"
